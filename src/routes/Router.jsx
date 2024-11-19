@@ -6,6 +6,10 @@ import {
 import Home from "../layout/Home";
 import CategoryNews from "../pages/CategoryNews";
 import AuthLayout from "../layout/AuthLayout";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import NewsDetails from "../pages/NewsDetails";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -27,8 +31,14 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/news",
-    element: <h1>News layout</h1>,
+    path: "/news/:id",
+    element: (
+      <PrivateRoute>
+        <NewsDetails />
+      </PrivateRoute>
+    ),
+    loader: ({ params }) =>
+      fetch(`https://openapi.programming-hero.com/api/news/${params.id}`),
   },
   {
     path: "/auth",
@@ -36,11 +46,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/auth/login",
-        element: <h2>Login</h2>,
+        element: <Login />,
       },
       {
         path: "/auth/register",
-        element: <h2>Register</h2>,
+        element: <Register />,
       },
     ],
   },
